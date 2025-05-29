@@ -1,0 +1,31 @@
+{
+  "manifest_version": 3,
+  "name": "YouTube Grid Styler",
+  "version": "1.3",
+  "description": "Escolha quantos vídeos aparecem por linha no YouTube.",
+  "icons": {
+    "48": "icons/icon48.png"
+  },
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_icon": {
+      "48": "icons/icon48.png"
+    }
+  },
+  "permissions": [
+    "storage",
+    "activeTab",
+    "scripting"
+  ],
+  "host_permissions": [
+    "https://www.youtube.com/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["https://www.youtube.com/*"],
+      "js": ["content_scripts/content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "web_accessible_resources": []
+}

@@ -1,0 +1,202 @@
+/* popup.css */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    background-color: #f4f4f9;
+    color: #333;
+    width: 320px;
+    /* Largura do popup */
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    /* Para garantir que o border-radius seja aplicado corretamente */
+}
+
+.container {
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 320px;
+    /* Altura mínima ajustada para novo botão */
+}
+
+header {
+    background-color: #c21807;
+    /* Vermelho YouTube mais escuro */
+    color: white;
+    padding: 15px 20px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    border-bottom: 1px solid #a01405;
+}
+
+header .logo {
+    width: 32px;
+    /* Tamanho do logo */
+    height: 32px;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 1.4em;
+    font-weight: 600;
+}
+
+main {
+    padding: 20px;
+    flex-grow: 1;
+    /* Faz o main ocupar o espaço restante */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.description {
+    font-size: 0.95em;
+    color: #555;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.options-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.option-button {
+    background-color: #fff;
+    color: #c21807;
+    border: 1px solid #ddd;
+    padding: 12px 0;
+    /* Padding vertical */
+    font-size: 1em;
+    font-weight: 500;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
+    text-align: center;
+}
+
+.option-button:hover {
+    background-color: #fce8e6;
+    /* Vermelho YouTube bem claro */
+    border-color: #f8c6c1;
+}
+
+.option-button:active,
+.option-button.selected {
+    background-color: #c21807;
+    color: white;
+    border-color: #a01405;
+    transform: scale(0.98);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) inset;
+}
+
+.slider-container {
+    width: 100%;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+#sliderLabel {
+    display: block;
+    font-size: 0.9em;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+#sliderLabel span {
+    font-weight: bold;
+    color: #c21807;
+}
+
+.slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 10px;
+    background: #e0e0e0;
+    outline: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    background: #c21807;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid white;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.slider::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    background: #c21807;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid white;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+
+.action-button {
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    font-size: 1em;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    width: 100%;
+    margin-top: 10px;
+    /* Espaçamento entre botões */
+    box-sizing: border-box;
+    /* Garante que padding não aumente a largura */
+}
+
+.apply-button {
+    background-color: #007bff;
+    /* Azul para aplicar */
+}
+
+.apply-button:hover {
+    background-color: #0056b3;
+}
+
+.reset-button {
+    background-color: #6c757d;
+    /* Cinza para reset */
+}
+
+.reset-button:hover {
+    background-color: #5a6268;
+}
+
+.status-message {
+    margin-top: 15px;
+    font-size: 0.85em;
+    color: #007bff;
+    min-height: 20px;
+    /* Para evitar que o layout pule */
+    text-align: center;
+}
+
+footer {
+    background-color: #e9ecef;
+    color: #6c757d;
+    padding: 8px 20px;
+    text-align: center;
+    font-size: 0.75em;
+    border-top: 1px solid #dee2e6;
+}
