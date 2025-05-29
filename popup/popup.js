@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    chrome.storage.local.get([STORAGE_KEY], (result) => {
+    browser.storage.local.get([STORAGE_KEY], (result) => {
         const savedValue = result[STORAGE_KEY];
         updateUI(savedValue !== undefined ? savedValue : DEFAULT_ITEMS_PER_ROW_YOUTUBE);
     });
@@ -69,23 +69,23 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     function sendMessageToContentScript(value, shouldReload = false) {
-        chrome.storage.local.set({ [STORAGE_KEY]: value }, () => {
+        browser.storage.local.set({ [STORAGE_KEY]: value }, () => {
             // A UI já foi atualizada por updateUI
-            chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+            browser.tabs.query({ active: true, currentWindow: true }, (tabs) => {
                 const activeTab = tabs[0];
                 // Condição da URL corrigida para ser mais genérica para páginas do YouTube
                 if (activeTab && activeTab.id && activeTab.url && activeTab.url.includes("youtube.com")) {
-                    chrome.tabs.sendMessage(activeTab.id, {
+                    browser.tabs.sendMessage(activeTab.id, {
                         action: "applyGridStyle",
                         numeroItens: value
                     }, (response) => {
-                        if (chrome.runtime.lastError) {
-                            console.error("Erro ao enviar mensagem:", chrome.runtime.lastError.message);
-                            setStatusMessage(`Erro: ${chrome.runtime.lastError.message}`, true);
+                        if (browser.runtime.lastError) {
+                            console.error("Erro ao enviar mensagem:", browser.runtime.lastError.message);
+                            setStatusMessage(`Erro: ${browser.runtime.lastError.message}`, true);
                             // Mesmo com erro no envio da mensagem, tenta recarregar se solicitado
                             if (shouldReload) {
                                 console.log("Tentando recarregar a aba (após erro na mensagem):", activeTab.id);
-                                chrome.tabs.reload(activeTab.id);
+                                browser.tabs.reload(activeTab.id);
                             }
                         } else if (response && response.status) {
                             console.log("Resposta do content script:", response);
@@ -95,7 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                 // Adiciona um pequeno delay antes de recarregar para o usuário ver a mensagem
                                 setTimeout(() => {
                                     console.log("Tentando recarregar a aba (após sucesso na mensagem):", activeTab.id);
-                                    chrome.tabs.reload(activeTab.id);
+                                    browser.tabs.reload(activeTab.id);
                                 }, 1000); // 1 segundo de delay
                             }
                         } else {
@@ -103,7 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
                              if (shouldReload) {
                                 setTimeout(() => {
                                     console.log("Tentando recarregar a aba (sem resposta do content script):", activeTab.id);
-                                    chrome.tabs.reload(activeTab.id);
+                                    browser.tabs.reload(activeTab.id);
                                 }, 1000);
                             }
                         }

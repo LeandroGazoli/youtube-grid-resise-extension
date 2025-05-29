@@ -63,7 +63,7 @@
         console.log(`[YouTube Grid Styler] Variável ${NOME_VARIAVEL_CSS} definida para ${numItens}.`);
     }
 
-    chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+    browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
         if (request.action === "applyGridStyle") {
             console.log('[YouTube Grid Styler] Mensagem recebida:', request);
             aplicarEstilo(request.numeroItens);
@@ -73,7 +73,7 @@
     });
 
     // Aplicar o estilo salvo ao carregar a página
-    chrome.storage.local.get([STORAGE_KEY], (result) => {
+    browser.storage.local.get([STORAGE_KEY], (result) => {
         const savedValue = result[STORAGE_KEY];
         console.log('[YouTube Grid Styler] Valor carregado do storage:', savedValue);
         if (savedValue !== undefined) {
@@ -152,7 +152,7 @@
         console.log('[YouTube Grid Styler] Navegação yt-navigate-finish. Reaplicando estilo se necessário.');
         // Pequeno atraso para garantir que o DOM esteja pronto
         setTimeout(() => {
-            chrome.storage.local.get([STORAGE_KEY], (result) => {
+            browser.storage.local.get([STORAGE_KEY], (result) => {
                 const savedValueOnNav = result[STORAGE_KEY];
                 if (savedValueOnNav !== undefined) {
                     aplicarEstilo(savedValueOnNav);
