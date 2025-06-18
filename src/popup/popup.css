@@ -5,15 +5,18 @@ body {
     background-color: #f4f4f9;
     color: #333;
     width: 320px;
+    max-height: 600px; /* Altura máxima para permitir scroll */
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    overflow: hidden;
+    overflow-y: auto; /* Permitir scroll vertical */
+    overflow-x: hidden; /* Esconder scroll horizontal */
 }
 
 .container {
     padding: 0;
     display: flex;
     flex-direction: column;
+    min-height: 100%;
 }
 
 header {
@@ -45,6 +48,7 @@ main {
     display: flex;
     flex-direction: column;
     align-items: center;
+    overflow-y: visible; /* Garantir que o conteúdo seja visível */
 }
 
 .control-section {
@@ -417,4 +421,37 @@ footer {
     .setting-description {
         font-size: 0.65em;
     }
+}
+
+/* Correções específicas para Firefox */
+@-moz-document url-prefix() {
+    body {
+        max-height: 500px; /* Altura menor para Firefox */
+        overflow-y: auto !important;
+        scrollbar-width: thin;
+        scrollbar-color: #c21807 #f4f4f9;
+    }
+    
+    .container {
+        height: auto;
+        max-height: none;
+    }
+}
+
+/* Melhorar scrollbar em todos os navegadores */
+body::-webkit-scrollbar {
+    width: 8px;
+}
+
+body::-webkit-scrollbar-track {
+    background: #f4f4f9;
+}
+
+body::-webkit-scrollbar-thumb {
+    background: #c21807;
+    border-radius: 4px;
+}
+
+body::-webkit-scrollbar-thumb:hover {
+    background: #a01405;
 }
