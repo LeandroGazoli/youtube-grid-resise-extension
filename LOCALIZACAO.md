@@ -176,4 +176,5 @@ web-ext lint --source-dir=dist/firefox
 ---
 **Status**: ✅ Localização implementada e funcionando  
 **Idiomas**: 🇧🇷 Português (padrão) + 🇺🇸 English (fallback)  
-**Compatibilidade**: Firefox, Chrome, Edge
+**Compatibilidade**: Firefox, Chrome, Edge  
+**Versão**: 2.3.0

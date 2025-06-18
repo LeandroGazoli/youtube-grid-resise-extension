@@ -15,6 +15,9 @@ module.exports = (env) => {
         id: "YouTube_Grid_Styler@leandrogazoli.com",
         strict_min_version: "109.0",
       },
+      gecko_android: {
+        strict_min_version: "113.0",
+      },
     };
   }
 

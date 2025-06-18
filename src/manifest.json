@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "__MSG_extensionName__",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "description": "__MSG_extensionDescription__",
   "default_locale": "pt_BR",
   "icons": {
@@ -27,7 +27,8 @@
   "content_scripts": [
     {
       "matches": [
-        "https://www.youtube.com/*"
+        "https://www.youtube.com/*",
+        "https://m.youtube.com/*"
       ],
       "js": [
         "polyfills/browser-polyfill.js",

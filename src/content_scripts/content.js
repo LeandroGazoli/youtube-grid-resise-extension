@@ -2,6 +2,19 @@
 (() => {
   "use strict";
 
+  // --- DETECÇÃO DE PLATAFORMA ---
+  const isMobile = () => {
+    return (
+      window.location.hostname === "m.youtube.com" ||
+      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+        navigator.userAgent
+      ) ||
+      window.innerWidth <= 768
+    );
+  };
+
+  const isYouTubeMobile = window.location.hostname === "m.youtube.com";
+
   // --- CONFIGURAÇÕES E ESTADO ---
   const GRID_STORAGE_KEY = "youtubeGridItemsPerRow";
   const DATE_FILTER_STORAGE_KEY = "youtubeDateFilter";
@@ -40,12 +53,33 @@
       0,
       "important"
     );
-
     const styleElement = document.createElement("style");
     styleElement.id = GRID_STYLE_ID;
-    styleElement.textContent = `ytd-rich-grid-renderer { --ytd-rich-grid-items-per-row: ${numItens} !important; }`;
+
+    if (isYouTubeMobile) {
+      // Estilos específicos para YouTube Mobile (m.youtube.com)
+      styleElement.textContent = `
+        .rich-shelf-renderer .rich-grid-renderer {
+          display: grid !important;
+          grid-template-columns: repeat(${numItens}, 1fr) !important;
+          gap: 8px !important;
+        }
+        .rich-grid-renderer .rich-item-renderer {
+          width: 100% !important;
+          margin: 0 !important;
+        }
+      `;
+    } else {
+      // Estilos para YouTube Desktop
+      styleElement.textContent = `ytd-rich-grid-renderer { --ytd-rich-grid-items-per-row: ${numItens} !important; }`;
+    }
+
     document.head.appendChild(styleElement);
-    console.log(`[YT Styler] Grelha definida para ${numItens} itens.`);
+    console.log(
+      `[YT Styler] Grelha definida para ${numItens} itens ${
+        isYouTubeMobile ? "(mobile)" : "(desktop)"
+      }.`
+    );
   }
 
   // --- LÓGICA DO FILTRO DE DATA (Melhorada) ---
@@ -127,9 +161,17 @@
     }
     return now;
   }
-
   function processVideoForDate(video, cutoffDate) {
-    if (!video.matches || !video.matches("ytd-rich-item-renderer")) return;
+    // Suporte para desktop e mobile
+    const isDesktopVideo =
+      video.matches && video.matches("ytd-rich-item-renderer");
+    const isMobileVideo =
+      video.classList &&
+      (video.classList.contains("rich-item-renderer") ||
+        video.classList.contains("video-container"));
+
+    if (!isDesktopVideo && !isMobileVideo) return;
+
     if (!cutoffDate) {
       if (video.hasAttribute("data-filtered-date")) {
         video.style.display = "";
@@ -137,9 +179,20 @@
       }
       return;
     }
-    const metadataSpans = video.querySelectorAll(
-      "#metadata-line span.ytd-video-meta-block"
-    );
+
+    let metadataSpans;
+    if (isYouTubeMobile) {
+      // Seletores para YouTube Mobile
+      metadataSpans = video.querySelectorAll(
+        ".metadata-line span, .video-metadata span, .rich-video-meta span"
+      );
+    } else {
+      // Seletores para YouTube Desktop
+      metadataSpans = video.querySelectorAll(
+        "#metadata-line span.ytd-video-meta-block"
+      );
+    }
+
     let dateText = null;
     metadataSpans.forEach((span) => {
       const text = span.textContent || "";
@@ -169,40 +222,82 @@
       }
     }
   }
-
   function filterAllVisibleVideosByDate() {
     const cutoffDate = getFilterCutoffDate(currentDateFilter);
-    document
-      .querySelectorAll("ytd-rich-item-renderer")
-      .forEach((video) => processVideoForDate(video, cutoffDate));
-  }
 
+    if (isYouTubeMobile) {
+      // Seletores para YouTube Mobile
+      document
+        .querySelectorAll(
+          ".rich-item-renderer, .video-container, .video-list-item"
+        )
+        .forEach((video) => processVideoForDate(video, cutoffDate));
+    } else {
+      // Seletores para YouTube Desktop
+      document
+        .querySelectorAll("ytd-rich-item-renderer")
+        .forEach((video) => processVideoForDate(video, cutoffDate));
+    }
+  }
   // --- LÓGICA DO FILTRO DE SHORTS (Nova) ---
   function processShorts() {
     const displayStyle = currentShortsFilter ? "none" : "";
-    // Esconde prateleiras inteiras de "Shorts"
-    document
-      .querySelectorAll("ytd-rich-section-renderer, ytd-reel-shelf-renderer")
-      .forEach((shelf) => {
-        const titleElement = shelf.querySelector(
-          "#title-container #title-text, #title"
+
+    if (isYouTubeMobile) {
+      // Processamento para YouTube Mobile
+      document
+        .querySelectorAll(
+          ".rich-section-renderer, .reel-shelf-renderer, .shelf-renderer"
+        )
+        .forEach((shelf) => {
+          const titleElement = shelf.querySelector(
+            ".shelf-title, .rich-shelf-header h3, .shelf-header h3"
+          );
+          if (
+            titleElement &&
+            titleElement.textContent.trim().toLowerCase() === "shorts"
+          ) {
+            shelf.style.display = displayStyle;
+          }
+        });
+
+      // Esconde vídeos de shorts individuais no mobile
+      document.querySelectorAll('a[href*="/shorts/"]').forEach((shortLink) => {
+        const videoCard = shortLink.closest(
+          ".rich-item-renderer, .video-container, .video-list-item"
         );
-        if (
-          titleElement &&
-          titleElement.textContent.trim().toLowerCase() === "shorts"
-        ) {
-          shelf.style.display = displayStyle;
-        }
-      });
-    // Esconde vídeos de shorts individuais
-    document
-      .querySelectorAll('ytd-rich-item-renderer a#thumbnail[href*="/shorts/"]')
-      .forEach((shortLink) => {
-        const videoCard = shortLink.closest("ytd-rich-item-renderer");
         if (videoCard) {
           videoCard.style.display = displayStyle;
         }
       });
+    } else {
+      // Processamento para YouTube Desktop
+      document
+        .querySelectorAll("ytd-rich-section-renderer, ytd-reel-shelf-renderer")
+        .forEach((shelf) => {
+          const titleElement = shelf.querySelector(
+            "#title-container #title-text, #title"
+          );
+          if (
+            titleElement &&
+            titleElement.textContent.trim().toLowerCase() === "shorts"
+          ) {
+            shelf.style.display = displayStyle;
+          }
+        });
+
+      // Esconde vídeos de shorts individuais no desktop
+      document
+        .querySelectorAll(
+          'ytd-rich-item-renderer a#thumbnail[href*="/shorts/"]'
+        )
+        .forEach((shortLink) => {
+          const videoCard = shortLink.closest("ytd-rich-item-renderer");
+          if (videoCard) {
+            videoCard.style.display = displayStyle;
+          }
+        });
+    }
   }
 
   // --- INICIALIZAÇÃO E OBSERVERS ---
@@ -250,17 +345,29 @@
   };
 
   const observer = new MutationObserver(debouncedFilter);
-
   let observedNode = null;
   function startObserver() {
-    const targetNode = document.querySelector("ytd-page-manager");
+    let targetNode;
+
+    if (isYouTubeMobile) {
+      // Para YouTube Mobile
+      targetNode = document.querySelector("body") || document.documentElement;
+    } else {
+      // Para YouTube Desktop
+      targetNode = document.querySelector("ytd-page-manager");
+    }
+
     if (targetNode && targetNode !== observedNode) {
       if (observer && observedNode) {
         observer.disconnect();
       }
       observer.observe(targetNode, { childList: true, subtree: true });
       observedNode = targetNode;
-      console.log("[YT Styler] Observer iniciado em ytd-page-manager.");
+      console.log(
+        `[YT Styler] Observer iniciado em ${
+          isYouTubeMobile ? "body (mobile)" : "ytd-page-manager (desktop)"
+        }.`
+      );
     }
   }
 
@@ -276,8 +383,9 @@
       startObserver();
     }, 500);
   });
-
   console.log(
-    "[YT Styler] Script de conteúdo v1.6 (com filtro de shorts) carregado."
+    `[YT Styler] Script de conteúdo v2.0 (com suporte mobile) carregado - Plataforma: ${
+      isYouTubeMobile ? "YouTube Mobile" : "YouTube Desktop"
+    }.`
   );
 })();
