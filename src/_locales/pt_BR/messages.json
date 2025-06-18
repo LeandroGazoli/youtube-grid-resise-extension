@@ -1,0 +1,20 @@
+{
+  "extensionName": {
+    "message": "YouTube Tools"
+  },
+  "extensionDescription": {
+    "message": "Personalize o YouTube com controle de ferramentas e filtros de conteúdo e muito mais."
+  },
+  "popupTitle": {
+    "message": "YouTube Tools"
+  },
+  "gridColumns": {
+    "message": "Customização de grid e Ferramentas"
+  },
+  "autoColumns": {
+    "message": "Automático"
+  },
+  "version": {
+    "message": "Versão"
+  }
+}

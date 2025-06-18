@@ -1,6 +1,6 @@
 {
   "name": "youtube-grid-styler",
-  "version": "2.0.0",
+  "version": "2.2.0",
   "description": "Uma extensão multi-browser para personalizar o YouTube com controlo de grelha e filtros de conteúdo.",
   "main": "index.js",
   "scripts": {

@@ -9,12 +9,11 @@ module.exports = (env) => {
   // Cria uma cópia do manifest base e adiciona configurações específicas
   const baseManifest = require("./src/manifest.json");
   let browserManifest = { ...baseManifest };
-
   if (browser === "firefox") {
     browserManifest.browser_specific_settings = {
       gecko: {
-        id: "youtube-grid-styler@leandrogazoli.com",
-        strict_min_version: "91.1",
+        id: "YouTube_Grid_Styler@leandrogazoli.com",
+        strict_min_version: "109.0",
       },
     };
   }
@@ -38,6 +37,7 @@ module.exports = (env) => {
           { from: "src/popup/popup.html", to: "popup" },
           { from: "src/popup/popup.css", to: "popup" },
           { from: "src/polyfills/browser-polyfill.js", to: "polyfills" },
+          { from: "src/_locales", to: "_locales" },
           {
             from: "src/manifest.json",
             to: "manifest.json",

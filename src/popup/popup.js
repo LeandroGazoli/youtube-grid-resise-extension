@@ -198,12 +198,9 @@ document.addEventListener("DOMContentLoaded", () => {
       );
       setStatusMessage(`Erro: ${browser.runtime.lastError.message}`, true);
     } else if (response && response.status === "ok") {
-      setStatusMessage(
-        "Configurações aplicadas!" + (shouldReload ? " A recarregar..." : ""),
-        false
-      );
+      setStatusMessage("Configurações aplicadas!", false);
       if (shouldReload) {
-        setTimeout(() => browser.tabs.reload(tabId), 1000);
+        // setTimeout(() => browser.tabs.reload(tabId), 1000);
       }
     } else {
       setStatusMessage(
