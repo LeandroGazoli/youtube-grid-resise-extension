@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Grid Styler</title>
+    <link rel="stylesheet" href="popup.css">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <img src="../icons/icon48.png" alt="Ícone da Extensão" class="logo">
+            <h1>YouTube Grid Styler</h1>
+        </header>
+        <main>
+            <!-- Secção do Grid -->
+            <div class="control-section">
+                <p class="description">Vídeos por linha:</p>
+                <div class="options-grid">
+                    <button class="option-button" data-value="3">3</button>
+                    <button class="option-button" data-value="4">4</button>
+                    <button class="option-button" data-value="5">5</button>
+                    <button class="option-button" data-value="6">6</button>
+                    <button class="option-button" data-value="7">7</button>
+                    <button class="option-button" data-value="8">8</button>
+                </div>
+                <div class="slider-container">
+                    <label for="itemsPerRowSlider" id="sliderLabel">Itens:
+                        <span>5</span></label>
+                    <input type="range" min="2" max="10" value="5"
+                        class="slider" id="itemsPerRowSlider">
+                </div>
+            </div>
+
+            <!-- Secção dos Filtros -->
+            <div class="control-section">
+                <p class="description">Filtros de Conteúdo:</p>
+                <!-- Filtro de Data -->
+                <div class="setting-row">
+                    <label for="dateFilterSelect" class="setting-label">Mostrar
+                        vídeos dos últimos:</label>
+                    <div class="select-wrapper">
+                        <select id="dateFilterSelect">
+                            <option value="all">Sempre</option>
+                            <option value="week">7 dias</option>
+                            <option value="month">1 mês</option>
+                            <option value="3months">3 meses</option>
+                            <option value="6months">6 meses</option>
+                            <option value="year">1 ano</option>
+                        </select>
+                    </div>
+                </div> <!-- Filtro de Shorts (Novo) -->
+                <div class="setting-row shorts-filter-row">
+                    <div class="setting-label-with-icon">
+                        <span class="shorts-icon">⚡</span>
+                        <div class="label-container">
+                            <label for="shortsFilterToggle"
+                                class="setting-label">Remover Shorts</label>
+                            <span class="setting-description">Oculta vídeos
+                                curtos</span>
+                        </div>
+                    </div>
+                    <label class="switch enhanced-switch">
+                        <input type="checkbox" id="shortsFilterToggle">
+                        <span class="slider round enhanced-slider">
+                            <span class="slider-text off">OFF</span>
+                            <span class="slider-text on">ON</span>
+                        </span>
+                    </label>
+                </div>
+            </div>
+
+            <button id="applyAndReloadButton"
+                class="action-button apply-button">Aplicar e Recarregar
+                Página</button>
+            <button id="resetButton"
+                class="action-button reset-button">Restaurar Padrões</button>
+            <p id="statusMessage" class="status-message"></p>
+        </main>
+        <footer>
+            <p>Versão <span id="extensionVersion">...</span></p>
+        </footer>
+    </div>
+    <script src="../polyfills/browser-polyfill.js"></script>
+    <script src="popup.js"></script>
+</body>
+
+</html>

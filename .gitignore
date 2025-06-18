@@ -1,1 +1,27 @@
+# Build outputs
+dist/
 *.zip
+
+# Dependências
+node_modules/
+npm-debug.log*
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Arquivos temporários
+*.tmp
+*.temp
+
+# Backup files
+*.bak
