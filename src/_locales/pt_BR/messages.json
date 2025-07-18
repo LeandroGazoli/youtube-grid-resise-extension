@@ -1,12 +1,12 @@
 {
   "extensionName": {
-    "message": "YouTube Tools"
+    "message": "OmniTube"
   },
   "extensionDescription": {
     "message": "Personalize o YouTube com controle de ferramentas e filtros de conteúdo e muito mais."
   },
   "popupTitle": {
-    "message": "YouTube Tools"
+    "message": "OmniTube"
   },
   "gridColumns": {
     "message": "Customização de grid e Ferramentas"
